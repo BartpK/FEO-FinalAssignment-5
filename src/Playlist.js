@@ -1,38 +1,44 @@
 import React from 'react'
 
 const Playlist = (props) => {
-
-    const songsToDisplay = props.songs.map(song => {
-        { console.log(song) }
+    if (props.loading) {
         return (
-            <tr key={song.title}>
-                <td>{song.title}</td>
-                <td>{song.artist}</td>
-                <td>{song.genre}</td>
-                <td>{song.rating}/5</td>
-            </tr>
+            <h2>loading...</h2>
         )
-    });
-    console.log(songsToDisplay)
-    return (
-        <div>
+    } else {
+        const songsToDisplay = props.songs.map(song => {
 
-            <table className="playlisttable">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Artist</th>
-                        <th>Genre</th>
-                        <th>Rating</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {songsToDisplay}
-                </tbody>
-            </table>
+            return (
+                <tr key={song.title}>
+                    <td>{song.title}</td>
+                    <td>{song.artist}</td>
+                    <td>{song.genre}</td>
+                    <td>{song.rating}/5</td>
+                    <td onClick={() => { props.removeSongFromDatabase([song.id]); props.removeSongFromPlaylist([song.id]) }}>Delete</td>
+                </tr>
+            )
+        });
+        return (
+            <div>
 
-        </div>
-    )
+                <table className="playlisttable">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Artist</th>
+                            <th>Genre</th>
+                            <th>Rating</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {songsToDisplay}
+                    </tbody>
+                </table>
+
+            </div>
+        )
+    }
 }
 
 export default Playlist

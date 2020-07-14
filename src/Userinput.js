@@ -37,12 +37,14 @@ class Userinput extends React.Component {
             case "ratingdsc":
                 this.props.sortPlaylist("rating", "dsc")
                 break
+            default:
         }
 
     }
 
 
     render() {
+
         return (
             <div className="userinputcontainer">
                 <h1>Header for userinput</h1>
@@ -56,9 +58,9 @@ class Userinput extends React.Component {
                     <option value="Classics">Classics</option>
                 </select>
                 <input type="range" min="1" max="5" name="rating" value={this.state.rating} onChange={this.changeHandler} />
-                <button onClick={() => this.props.addSongToPlaylist(this.state)}>Add song</button>
-                <select onChange={(e) => { this.sortHandler(e) }}>
-                    <option disabled selected>Sort by...</option>
+                <button onClick={() => { this.props.addSongToPlaylist(this.state); this.props.addSongToDatabase(this.state) }}>Add song</button>
+                <select defaultValue="Sort by..." onChange={(e) => { this.sortHandler(e) }}>
+                    <option disabled>Sort by...</option>
                     <option value="artistasc">Artist A-Z</option>
                     <option value="artistdsc">Artist Z-A</option>
                     <option value="titleasc">Title A-Z</option>
@@ -66,6 +68,7 @@ class Userinput extends React.Component {
                     <option value="ratingasc">Rating 1-5</option>
                     <option value="ratingdsc">Rating 5-1</option>
                 </select>
+                <button onClick={this.props.clearPlaylistHandler}>Clear playlist</button>
             </div>
         )
     }
