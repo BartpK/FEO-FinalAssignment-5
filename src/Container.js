@@ -94,21 +94,18 @@ class Container extends React.Component {
     }
 
     updateSongsInPlaylist = (songArray) => {
-        console.log(songArray)
         this.setState({
             songs: songArray,
         })
     }
 
     removeSongFromDatabase = (songArray) => {
-        console.log("remove from databasefunction", songArray)
         songArray.forEach(song => {
             fetch(`https://react-playlist-4dfb9.firebaseio.com/playlist/${song}.json`, { method: 'DELETE' })
         })
     }
 
     clearPlaylistHandler = () => {
-        console.log("clear all songs")
         const songsToRemove = this.state.songs.map(song => {
             return song.id;
         })

@@ -54,7 +54,7 @@ class Userinput extends React.Component {
                     <option value="Classics">Classics</option>
                 </select>
                 <div className="ratinginputcontainer">
-                    <span>Rating:</span><input type="range" min="1" max="5" name="rating" value={this.state.rating} onChange={this.changeHandler} />
+                    <span>Rating:</span><input className="ratingslider" type="range" min="1" max="5" name="rating" value={this.state.rating} onChange={this.changeHandler} />
                     <span>{this.state.rating}/5</span>
                 </div>
                 <button onClick={() => { this.props.addSongToPlaylist(this.state); this.props.addSongToDatabase(this.state) }}>Add song</button>
@@ -64,8 +64,8 @@ class Userinput extends React.Component {
                     <option value="artistdsc">Artist Z-A</option>
                     <option value="titleasc">Title A-Z</option>
                     <option value="titledsc">Title Z-A</option>
-                    <option value="ratingasc">Rating 1-5</option>
-                    <option value="ratingdsc">Rating 5-1</option>
+                    <option value="ratingasc">Rating low-high</option>
+                    <option value="ratingdsc">Rating high-low</option>
                 </select>
             </div >
         )
