@@ -109,16 +109,14 @@ class Container extends React.Component {
 
     clearPlaylistHandler = () => {
         console.log("clear all songs")
-        const songsToRemoveDatabase = this.state.songs.map(song => {
+        const songsToRemove = this.state.songs.map(song => {
             return song.id;
         })
-        const songsToRemovePlaylist = this.state.songs.map(song => {
-            return song.id;
-        })
-
-        this.removeSongFromPlaylist(songsToRemovePlaylist);
-        this.removeSongFromDatabase(songsToRemoveDatabase);
+        this.removeSongFromPlaylist(songsToRemove);
+        this.removeSongFromDatabase(songsToRemove);
     }
+
+
     //lifecycle methods below this line
 
     componentDidMount() {
@@ -128,43 +126,46 @@ class Container extends React.Component {
     render() {
 
         return (
-            <div className="maincontainer">
-                <Userinput
-                    addSongToPlaylist={this.addSongToPlaylist}
-                    sortPlaylist={this.sortPlaylist}
-                    addSongToDatabase={this.addSongToDatabase}
-                    removeSongFromDatabase={this.removeSongFromDatabase}
-                    removeSongFromPlaylist={this.removeSongFromPlaylist}
-                    clearPlaylistHandler={this.clearPlaylistHandler} />
-                <Playlist
-                    songs={this.state.songs}
-                    loading={this.state.loading}
-                    removeSongFromDatabase={this.removeSongFromDatabase}
-                    removeSongFromPlaylist={this.removeSongFromPlaylist}
-                />
+            <div className="backgroundcontainer">
+                <div className="maincontainer">
 
-                <button onClick={() => {
-                    for (let i = 0; i < 25; i++) {
-                        this.addSongToPlaylist({
+                    <Userinput
+                        addSongToPlaylist={this.addSongToPlaylist}
+                        sortPlaylist={this.sortPlaylist}
+                        addSongToDatabase={this.addSongToDatabase}
+                    />
+                    <Playlist
+                        songs={this.state.songs}
+                        loading={this.state.loading}
+                        removeSongFromDatabase={this.removeSongFromDatabase}
+                        removeSongFromPlaylist={this.removeSongFromPlaylist}
+                        refreshData={this.refreshData}
+                        clearPlaylistHandler={this.clearPlaylistHandler}
+                    />
 
-                            title: i,
-                            artist: i,
-                            genre: "Rock",
-                            rating: 3
+                    <button onClick={() => {
+                        for (let i = 0; i < 25; i++) {
+                            this.addSongToPlaylist({
 
-                        });
-                        this.addSongToDatabase({
+                                title: i,
+                                artist: i,
+                                genre: "Rock",
+                                rating: 3
 
-                            title: i,
-                            artist: i,
-                            genre: "Rock",
-                            rating: 3
+                            });
+                            this.addSongToDatabase({
 
-                        });
+                                title: i,
+                                artist: i,
+                                genre: "Rock",
+                                rating: 3
+
+                            });
+                        }
                     }
-                }
-                }
-                > Create test data</button>
+                    }
+                    > Create test data</button>
+                </div>
             </div >
         )
     }

@@ -39,17 +39,13 @@ class Userinput extends React.Component {
                 break
             default:
         }
-
     }
-
-
     render() {
 
         return (
             <div className="userinputcontainer">
-                <h1>Header for userinput</h1>
-                <input type="text" name="title" value={this.state.title} onChange={this.changeHandler} />
-                <input type="text" name="artist" value={this.state.artist} onChange={this.changeHandler} />
+                <input type="text" name="title" placeholder="Song title" value={this.state.title} onChange={this.changeHandler} />
+                <input type="text" name="artist" placeholder="Artist" value={this.state.artist} onChange={this.changeHandler} />
                 <select name="genre" value={this.state.genre} onChange={this.changeHandler}>
                     <option value="Select a genre" disabled>Select a genre</option>
                     <option value="Rock">Rock</option>
@@ -57,7 +53,10 @@ class Userinput extends React.Component {
                     <option value="Metal">Metal</option>
                     <option value="Classics">Classics</option>
                 </select>
-                <input type="range" min="1" max="5" name="rating" value={this.state.rating} onChange={this.changeHandler} />
+                <div className="ratinginputcontainer">
+                    <span>Rating:</span><input type="range" min="1" max="5" name="rating" value={this.state.rating} onChange={this.changeHandler} />
+                    <span>{this.state.rating}/5</span>
+                </div>
                 <button onClick={() => { this.props.addSongToPlaylist(this.state); this.props.addSongToDatabase(this.state) }}>Add song</button>
                 <select defaultValue="Sort by..." onChange={(e) => { this.sortHandler(e) }}>
                     <option disabled>Sort by...</option>
@@ -68,8 +67,7 @@ class Userinput extends React.Component {
                     <option value="ratingasc">Rating 1-5</option>
                     <option value="ratingdsc">Rating 5-1</option>
                 </select>
-                <button onClick={this.props.clearPlaylistHandler}>Clear playlist</button>
-            </div>
+            </div >
         )
     }
 }

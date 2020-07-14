@@ -1,3 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600&display=swap');
+
+body {
+  background-color: #F5F5F5;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  font-family: 'Assistant', sans-serif;
+  color: #625F63
+}
+
+.backgroundcontainer {
+  background-image: url('https://i.pinimg.com/originals/31/e3/2d/31e32d93be0f2ac2cf246f3502c3043a.jpg');
+  min-height: 100vh;
+}
+
+.mainnav {
+  background-color: #F5F5F5;
+  padding: 20px;
+  text-align: end;
+}
+.mainnav a {
+  color: #625F63;
+  margin-right: 30px;
+}
+
+td,th {
+  width: 28%;
+}
+
+.maincontainer {
+  padding: 100px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+thead {
+text-align: left;
+}
+
+table {
+  background-color: #F5F5F5;
+}
+
 td {
-  width: 20%;
+  border:none;
+  padding: 10px 20px 20px 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+tr:nth-child(odd) {
+  background-color: white;
+}
+
+.userinputcontainer {
+  display: flex;
+  margin: auto;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 15px 0 15px 0;
+  background-color: #625F63;
+}
+
+.userinputcontainer input, .userinputcontainer select {
+  box-sizing: border-box;
+  width: 150px;
+}
+
+.userinputcontainer button {
+background-color: #F76F8E;
+color: white;
+font-weight: 400;
+border:none;
+padding: 3px 20px 3px 20px;
+}
+
+.userinputcontainer button:hover {
+  color: #F76F8E;
+  background-color: white;
+}
+
+.userinputcontainer span {
+  color: white;
+  margin: 5px;
+}
+
+.playbuttontd {
+  width: 10px;
+  text-align: center;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.ratinginputcontainer input {
+  width: 100px;
+}
+
+.clearbutton {
+  width: 120px;
+  margin: 20px auto;
+  display: block;
+  background-color: #8E94F2;
+  border:none;
+  padding: 5px;
+  color: white;
+  transition-property: background-color;
+  transition: 0.3s;
+}
+
+.clearbutton:hover{
+  background-color: #F76F8E;
+}
+
+.icon {
+  transition-property: color;
+  transition: 0.3s;
+}
+
+.icon:hover {
+  color: #F76F8E;
+}
+
+.loading {
+  color:white;
 }

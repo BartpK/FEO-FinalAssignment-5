@@ -8,12 +8,16 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router className="mainnav">
-      <Link to={"/"}>Home</Link>
-      <Link to={"/about"}>About</Link>
+
+    <Router>
+      <div className="mainnav">
+        <Link to={"/"}>Home</Link>
+        <Link to={"/about"}>About</Link>
+      </div>
       <Route exact path="/" component={App} />
       <Route path="/about" component={About} />
     </Router>
+
   </React.StrictMode >,
   document.getElementById('root')
 );
