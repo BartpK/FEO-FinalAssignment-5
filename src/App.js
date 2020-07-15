@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import Container from "./Container"
-import { useSelector } from "react-redux"
 
 function App() {
 
@@ -12,4 +11,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

@@ -1,5 +1,5 @@
 import React from 'react'
-import Userinput from './Userinput';
+import UserinputContainer from './UserinputContainer';
 import Playlist from './Playlist';
 import { syncData, addSongToPlaylist, sortSongs, toggleLoading, removeSong } from "./actions"
 import { connect } from "react-redux"
@@ -27,15 +27,9 @@ class Container extends React.Component {
     sortPlaylist = (property, direction) => {
         if (direction === "asc") {
             const sortedSongsArray = this.props.songs.sort((a, b) => (a[property] > b[property]) ? 1 : -1)
-
-            // this.setState({ songs: sortedSongsArray })
-            //Redux done
             this.props.dispatch(sortSongs(sortedSongsArray))
         } else {
             const sortedSongsArray = this.props.songs.sort((a, b) => (a[property] > b[property]) ? -1 : 1)
-
-            // this.setState({ songs: sortedSongsArray })
-            //Redux done    
             this.props.dispatch(sortSongs(sortedSongsArray))
         }
     }
@@ -97,21 +91,16 @@ class Container extends React.Component {
         this.removeSongFromDatabase(songsToRemove);
     }
 
-    //lifecycle methods below this line
-
     componentDidMount() {
         this.refreshData();
         this.props.dispatch(toggleLoading())
     }
 
     render() {
-        console.log(this.props.songs);
-        console.log(this.props.dispatch);
         return (
             <div className="backgroundcontainer">
                 <div className="maincontainer">
-
-                    <Userinput
+                    <UserinputContainer
                         addSongToPlaylist={this.addSongToPlaylist}
                         sortPlaylist={this.sortPlaylist}
                         addSongToDatabase={this.addSongToDatabase}
@@ -122,42 +111,14 @@ class Container extends React.Component {
                         refreshData={this.refreshData}
                         clearPlaylistHandler={this.clearPlaylistHandler}
                     />
-
-                    <button onClick={() => {
-                        for (let i = 0; i < 25; i++) {
-                            this.addSongToPlaylist({
-
-                                title: i,
-                                artist: i,
-                                genre: "Rock",
-                                rating: 3
-
-                            });
-                            this.addSongToDatabase({
-
-                                title: i,
-                                artist: i,
-                                genre: "Rock",
-                                rating: 3
-
-                            });
-                        }
-                    }
-                    }
-                    > Create test data</button>
                 </div>
             </div >
         )
-
     }
-
-
 }
-
 
 const mapStateToProps = state => ({
     songs: state.songManager.songs,
-    //dispatch: store.dispatch
 });
 
 export default connect(mapStateToProps)(Container)

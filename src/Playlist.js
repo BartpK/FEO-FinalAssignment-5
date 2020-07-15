@@ -1,24 +1,11 @@
 import React from 'react'
-
-//Redux
 import { useSelector } from 'react-redux'
-//import { syncData } from "./actions"
-//import songManager from './reducers/songmanager'
-//End Redux
-
 
 const Playlist = (props) => {
 
-
-    //EXAMPLE HOW TO GET DATA:
     const songsFromStore = useSelector(state => state.songManager.songs)
     const isLoading = useSelector(state => state.isLoading)
-    console.log("isloading: ", isLoading);
 
-
-
-
-    // if (props.loading) {
     if (isLoading) {
         return (
             <h2 className="loading">loading...</h2>
@@ -26,7 +13,7 @@ const Playlist = (props) => {
     } else {
         const songsToDisplay = songsFromStore.map(song => {
             return (
-                <tr key={song.title}>
+                <tr key={song.title + " " + song.artist}>
                     <td className="playbuttontd"><i className="fas fa-play-circle icon" onClick={() => { window.open("https://youtu.be/dQw4w9WgXcQ", "_blank") }}></i>
                     </td>
                     <td>{song.title}</td>
