@@ -1,25 +1,14 @@
 import React from 'react'
-
 import Userinput from './Userinput';
-import Playlist from './Playlist'
+import Playlist from './Playlist';
+import { syncData, addSongToPlaylist, sortSongs, toggleLoading, removeSong } from "./actions"
+import { connect } from "react-redux"
 
 class Container extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            loading: true,
-            songs: [
 
-            ]
-        }
-    }
-    //Methods go below this line
     addSongToPlaylist = (songObject) => {
         if (songObject.title !== "" && songObject.artist !== "" && songObject.genre !== "Select a genre") {
-            this.setState(state => {
-                const newSongArray = state.songs.concat(songObject);
-                return { songs: newSongArray };
-            })
+            this.props.dispatch(addSongToPlaylist(songObject))
         }
     }
 
@@ -37,14 +26,25 @@ class Container extends React.Component {
 
     sortPlaylist = (property, direction) => {
         if (direction === "asc") {
-            const sortedSongsArray = this.state.songs.sort((a, b) => (a[property] > b[property]) ? 1 : -1)
+            const sortedSongsArray = this.props.songs.sort((a, b) => (a[property] > b[property]) ? 1 : -1)
 
-            this.setState({ songs: sortedSongsArray })
+            // this.setState({ songs: sortedSongsArray })
+            //Redux done
+            this.props.dispatch(sortSongs(sortedSongsArray))
         } else {
-            const sortedSongsArray = this.state.songs.sort((a, b) => (a[property] > b[property]) ? -1 : 1)
+            const sortedSongsArray = this.props.songs.sort((a, b) => (a[property] > b[property]) ? -1 : 1)
 
-            this.setState({ songs: sortedSongsArray })
+            // this.setState({ songs: sortedSongsArray })
+            //Redux done    
+            this.props.dispatch(sortSongs(sortedSongsArray))
         }
+    }
+
+    refreshData = async () => {
+        fetch("https://react-playlist-4dfb9.firebaseio.com/playlist.json", { method: "GET" })
+            .then(response => response.json())
+            .then(data =>
+                this.cleanUpData(data))
     }
 
     cleanUpData = (data) => {
@@ -69,34 +69,18 @@ class Container extends React.Component {
         }
     }
 
-    refreshData = async () => {
-        fetch("https://react-playlist-4dfb9.firebaseio.com/playlist.json", { method: "GET" })
-            .then(response => response.json())
-            .then(data =>
-                this.cleanUpData(data))
-    }
-
     syncStateToDatabase = (data) => {
-        this.setState({
-            songs: data,
-            loading: false
-        })
+        this.props.dispatch(toggleLoading())
+        this.props.dispatch(syncData(data))
     }
 
     removeSongFromPlaylist = (songArray) => {
-
-        const newArray = this.state.songs.filter(song => {
+        const newArray = this.props.songs.filter(song => {
             if (!songArray.includes(song.id)) {
                 return song
             }
         })
-        this.updateSongsInPlaylist(newArray);
-    }
-
-    updateSongsInPlaylist = (songArray) => {
-        this.setState({
-            songs: songArray,
-        })
+        this.props.dispatch(removeSong(newArray))
     }
 
     removeSongFromDatabase = (songArray) => {
@@ -106,22 +90,23 @@ class Container extends React.Component {
     }
 
     clearPlaylistHandler = () => {
-        const songsToRemove = this.state.songs.map(song => {
+        const songsToRemove = this.props.songs.map(song => {
             return song.id;
         })
         this.removeSongFromPlaylist(songsToRemove);
         this.removeSongFromDatabase(songsToRemove);
     }
 
-
     //lifecycle methods below this line
 
     componentDidMount() {
         this.refreshData();
+        this.props.dispatch(toggleLoading())
     }
 
     render() {
-
+        console.log(this.props.songs);
+        console.log(this.props.dispatch);
         return (
             <div className="backgroundcontainer">
                 <div className="maincontainer">
@@ -132,8 +117,6 @@ class Container extends React.Component {
                         addSongToDatabase={this.addSongToDatabase}
                     />
                     <Playlist
-                        songs={this.state.songs}
-                        loading={this.state.loading}
                         removeSongFromDatabase={this.removeSongFromDatabase}
                         removeSongFromPlaylist={this.removeSongFromPlaylist}
                         refreshData={this.refreshData}
@@ -165,7 +148,16 @@ class Container extends React.Component {
                 </div>
             </div >
         )
+
     }
+
+
 }
 
-export default Container
+
+const mapStateToProps = state => ({
+    songs: state.songManager.songs,
+    //dispatch: store.dispatch
+});
+
+export default connect(mapStateToProps)(Container)
