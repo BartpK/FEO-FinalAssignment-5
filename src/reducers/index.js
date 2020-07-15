@@ -1,10 +1,8 @@
-import counterReducer from "./counter"
 import isLoading from "./isLoading"
-import songManager from "./songmanager"
+import songManager from "./songManager"
 import { combineReducers } from 'redux'
 
 const allReducers = combineReducers({
-    counter: counterReducer,
     isLoading: isLoading,
     songManager: songManager
 })
