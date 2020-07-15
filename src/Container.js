@@ -1,7 +1,15 @@
 import React from 'react'
 
 import Userinput from './Userinput';
-import Playlist from './Playlist'
+import Playlist from './Playlist';
+
+//keep adding actions here if needed
+import { useSelector, useDispatch } from 'react-redux'
+import { syncData, addSongToPlaylist, sortSongs, toggleLoading, removeSong } from "./actions"
+import { connect } from "react-redux"
+
+
+
 
 class Container extends React.Component {
     constructor() {
@@ -20,6 +28,8 @@ class Container extends React.Component {
                 const newSongArray = state.songs.concat(songObject);
                 return { songs: newSongArray };
             })
+            //Redux below
+            this.props.dispatch(addSongToPlaylist(songObject))
         }
     }
 
@@ -28,7 +38,7 @@ class Container extends React.Component {
         if (songObject.title !== "" && songObject.artist !== "" && songObject.genre !== "Select a genre") {
             try {
                 await fetch("https://react-playlist-4dfb9.firebaseio.com/playlist.json", { method: 'POST', body: JSON.stringify(songObject) })
-                this.refreshData();
+                //this.refreshData();
             } catch (error) {
                 console.log(error)
             }
@@ -40,10 +50,14 @@ class Container extends React.Component {
             const sortedSongsArray = this.state.songs.sort((a, b) => (a[property] > b[property]) ? 1 : -1)
 
             this.setState({ songs: sortedSongsArray })
+            //Redux done
+            this.props.dispatch(sortSongs(sortedSongsArray))
         } else {
             const sortedSongsArray = this.state.songs.sort((a, b) => (a[property] > b[property]) ? -1 : 1)
 
             this.setState({ songs: sortedSongsArray })
+            //Redux done    
+            this.props.dispatch(sortSongs(sortedSongsArray))
         }
     }
 
@@ -66,6 +80,7 @@ class Container extends React.Component {
                 rating: 3
             }]
             this.syncStateToDatabase(songs);
+            //addsyncstatetodatabase dispatch
         }
     }
 
@@ -81,15 +96,17 @@ class Container extends React.Component {
             songs: data,
             loading: false
         })
+        this.props.dispatch(toggleLoading())
+        this.props.dispatch(syncData(data))
     }
 
     removeSongFromPlaylist = (songArray) => {
-
         const newArray = this.state.songs.filter(song => {
             if (!songArray.includes(song.id)) {
                 return song
             }
         })
+        this.props.dispatch(removeSong(newArray))
         this.updateSongsInPlaylist(newArray);
     }
 
@@ -121,7 +138,7 @@ class Container extends React.Component {
     }
 
     render() {
-
+        console.log(this.props)
         return (
             <div className="backgroundcontainer">
                 <div className="maincontainer">
@@ -165,7 +182,12 @@ class Container extends React.Component {
                 </div>
             </div >
         )
+
     }
+
+
 }
 
-export default Container
+
+
+export default connect()(Container)

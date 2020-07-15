@@ -1,9 +1,26 @@
 import React from 'react'
 
-
+//Redux
+import { useSelector, useDispatch } from 'react-redux'
+import { syncData } from "./actions"
+import songManager from './reducers/songmanager'
+//End Redux
 
 
 const Playlist = (props) => {
+
+
+    //EXAMPLE HOW TO GET DATA:
+    const reduxTesting = useSelector(state => state.songManager.songs)
+
+    const reduxTestDisplay = reduxTesting.map(song => {
+        return (
+            <li style={{ color: "white" }}>{song.title}</li>
+        )
+    })
+
+
+
     if (props.loading) {
         return (
             <h2 className="loading">loading...</h2>
@@ -24,8 +41,10 @@ const Playlist = (props) => {
                 </tr>
             )
         });
+
         return (
             <div>
+                {reduxTestDisplay}
                 <table className="playlisttable">
                     <thead>
                         <tr>

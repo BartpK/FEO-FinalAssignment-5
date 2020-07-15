@@ -5,19 +5,25 @@ import App from './App';
 import About from './About'
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
+import { createStore } from 'redux';
+import allReducers from "./reducers"
+import { Provider } from 'react-redux'
+
+const store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+
 
 ReactDOM.render(
   <React.StrictMode>
-
-    <Router>
-      <div className="mainnav">
-        <Link to={"/"}>Home</Link>
-        <Link to={"/about"}>About</Link>
-      </div>
-      <Route exact path="/" component={App} />
-      <Route path="/about" component={About} />
-    </Router>
-
+    <Provider store={store}>
+      <Router>
+        <div className="mainnav">
+          <Link to={"/"}>Home</Link>
+          <Link to={"/about"}>About</Link>
+        </div>
+        <Route exact path="/" component={App} />
+        <Route path="/about" component={About} />
+      </Router>
+    </Provider>
   </React.StrictMode >,
   document.getElementById('root')
 );
