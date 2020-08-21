@@ -14,7 +14,7 @@ const Playlist = (props) => {
         const songsToDisplay = songsFromStore.map(song => {
             return (
                 <tr key={song.title + " " + song.artist}>
-                    <td className="playbuttontd"><i className="fas fa-play-circle icon" onClick={() => { window.open("https://youtu.be/dQw4w9WgXcQ", "_blank") }}></i>
+                    <td className="playbuttontd"><i className="fas fa-play-circle icon" onClick={() => { window.open(`https://www.youtube.com/results?search_query=${song.artist} ${song.title}`, "_blank") }}></i>
                     </td>
                     <td>{song.title}</td>
                     <td>{song.artist}</td>
